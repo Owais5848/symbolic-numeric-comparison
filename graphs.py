@@ -23,21 +23,21 @@ import numpy as np
 import sympy as sp
 
 # -----------------------------------------------------------------------------
-# THEME CONFIGURATION (Navy, Purple & Blue Accents)
+# THEME CONFIGURATION (Navy, Purple & Blue Accents - Premium Dark Theme)
 # -----------------------------------------------------------------------------
-THEME_BG = "#0B0F19"         # Deep Navy background
-CARD_BG = "#111827"          # Dark Slate / Navy card
+THEME_BG = "#0B1120"         # Deep Navy background
+CARD_BG = "#17243A"          # Dark Blue card background
 TEXT_COLOR = "#F8FAFC"       # White text
-MUTED_TEXT = "#94A3B8"       # Light slate
-GRID_COLOR = "#1E293B"       # Subtle navy grid
-SPINE_COLOR = "#374151"      # Border lines
+MUTED_TEXT = "#CBD5E1"       # Light grey text
+GRID_COLOR = "#223554"       # Subtle navy grid
+SPINE_COLOR = "#2D4263"      # Card border lines
 
-ACCENT_BLUE = "#38BDF8"      # Electric Blue / Cyan
-ACCENT_PURPLE = "#A855F7"    # Vibrant Purple
-ACCENT_GREEN = "#10B981"     # Emerald Green
-ACCENT_CORAL = "#F43F5E"     # Pink / Red accent
-ACCENT_AMBER = "#F59E0B"     # Amber / Gold
-ACCENT_INDIGO = "#6366F1"    # Indigo accent
+ACCENT_BLUE = "#3B82F6"      # Bright Blue (Primary)
+ACCENT_PURPLE = "#A78BFA"    # Purple (Secondary)
+ACCENT_GREEN = "#2DD4BF"     # Cyan / Teal (Success values)
+ACCENT_CORAL = "#F87171"     # Soft Coral / Red for limits
+ACCENT_AMBER = "#FBBF24"     # Warm Amber for upper limits
+ACCENT_INDIGO = "#818CF8"    # Soft Indigo for chords
 
 
 # -----------------------------------------------------------------------------

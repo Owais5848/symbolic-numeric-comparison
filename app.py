@@ -4,7 +4,8 @@ app.py
 Frontend Web Application for the Symbolic vs Numeric Comparison Project.
 
 Built with Streamlit.
-Features a modern, responsive, dark-themed UI with navy, purple, and blue accents.
+Features a modern, responsive, premium dark-themed UI with deep navy, dark blue cards,
+bright blue accents, purple secondary accents, and cyan/teal success metrics.
 Connects dynamically with the calculations.py backend and graphs.py visualization.
 """
 
@@ -29,191 +30,426 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# 2. CUSTOM CSS STYLING (DARK THEME: NAVY, PURPLE & BLUE ACCENTS)
+# 2. CUSTOM CSS STYLING (PREMIUM DARK DASHBOARD)
 # -----------------------------------------------------------------------------
 st.markdown(
     """
     <style>
-    /* Global Background and Typography */
-    .stApp {
-        background-color: #0B0F19;
-        color: #F8FAFC;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    /* =========================================================================
+       1. GLOBAL THEME & TYPOGRAPHY
+       ========================================================================= */
+    :root {
+        --bg-navy: #0B1120;
+        --sidebar-navy: #111C32;
+        --card-darkblue: #17243A;
+        --card-hover: #1E2E4A;
+        --border-color: #2D4263;
+        --accent-blue: #3B82F6;
+        --accent-purple: #A78BFA;
+        --accent-teal: #2DD4BF;
+        --text-white: #F8FAFC;
+        --text-lightgrey: #CBD5E1;
+        --text-muted: #94A3B8;
     }
 
-    /* Top Navigation / Header styling */
-    .main-header {
-        background: linear-gradient(135deg, #111827 0%, #1E1B4B 50%, #0F172A 100%);
-        border: 1px solid rgba(139, 92, 246, 0.3);
-        border-radius: 16px;
-        padding: 24px 28px;
-        margin-bottom: 24px;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(139, 92, 246, 0.15);
+    /* Main Application Canvas */
+    .stApp {
+        background-color: #0B1120 !important;
+        color: #F8FAFC !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
     }
+
+    /* Global Headings: 100% Crisp White with Optimal Spacing */
+    h1, h2, h3, h4, h5, h6,
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6,
+    div[data-testid="stMarkdownContainer"] h1,
+    div[data-testid="stMarkdownContainer"] h2,
+    div[data-testid="stMarkdownContainer"] h3,
+    div[data-testid="stMarkdownContainer"] h4 {
+        color: #F8FAFC !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.02em !important;
+    }
+
+    /* Body Text & Descriptions */
+    .stMarkdown p, .stMarkdown span, .stMarkdown li,
+    div[data-testid="stMarkdownContainer"] p,
+    div[data-testid="stMarkdownContainer"] span,
+    div[data-testid="stMarkdownContainer"] li {
+        color: #CBD5E1 !important;
+        font-size: 0.95rem;
+        line-height: 1.65;
+    }
+
+    /* Captions & Subtext */
+    .stCaption, [data-testid="stCaptionContainer"] p, .stCaption p {
+        color: #94A3B8 !important;
+        font-size: 0.85rem !important;
+        line-height: 1.4 !important;
+    }
+
+    /* Clean Section Dividers */
+    hr, .stDivider, div[data-testid="stDivider"] {
+        border-color: #1E2E4A !important;
+        margin: 2.2rem 0 !important;
+    }
+
+    /* =========================================================================
+       2. SIDEBAR STYLING
+       ========================================================================= */
+    section[data-testid="stSidebar"] {
+        background-color: #111C32 !important;
+        border-right: 1px solid #1E2E4A !important;
+        padding-top: 1.5rem !important;
+    }
+
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h4 {
+        color: #F8FAFC !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.01em !important;
+        margin-top: 1.2rem !important;
+        margin-bottom: 0.6rem !important;
+    }
+
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] span,
+    section[data-testid="stSidebar"] label {
+        color: #CBD5E1 !important;
+    }
+
+    /* =========================================================================
+       3. INPUT CONTROLS & WIDGET LABELS
+       ========================================================================= */
+    label[data-testid="stWidgetLabel"],
+    .stWidgetLabel p,
+    .stWidgetLabel span {
+        color: #F8FAFC !important;
+        font-weight: 600 !important;
+        font-size: 0.88rem !important;
+        margin-bottom: 6px !important;
+    }
+
+    div[data-testid="stTextInput"] input,
+    div[data-testid="stNumberInput"] input {
+        background-color: #17243A !important;
+        color: #F8FAFC !important;
+        border: 1px solid #2D4263 !important;
+        border-radius: 9px !important;
+        font-size: 0.95rem !important;
+        padding: 9px 12px !important;
+        transition: all 0.2s ease !important;
+    }
+
+    div[data-testid="stTextInput"] input:focus,
+    div[data-testid="stNumberInput"] input:focus {
+        border-color: #3B82F6 !important;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25) !important;
+        background-color: #1A2A44 !important;
+    }
+
+    /* Stepper (+/-) buttons */
+    div[data-testid="stNumberInput"] button {
+        background-color: #1E2E4A !important;
+        color: #CBD5E1 !important;
+        border: 1px solid #2D4263 !important;
+        border-radius: 6px !important;
+    }
+
+    div[data-testid="stNumberInput"] button:hover {
+        background-color: #3B82F6 !important;
+        color: #FFFFFF !important;
+        border-color: #3B82F6 !important;
+    }
+
+    /* Checkbox Labels */
+    div[data-testid="stCheckbox"] label p {
+        color: #CBD5E1 !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* =========================================================================
+       4. PRIMARY BUTTON STYLING
+       ========================================================================= */
+    div.stButton > button:first-child {
+        background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%) !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        font-size: 1.02rem !important;
+        letter-spacing: 0.02em !important;
+        border: 1px solid rgba(59, 130, 246, 0.5) !important;
+        border-radius: 10px !important;
+        padding: 13px 26px !important;
+        box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        margin-top: 10px !important;
+    }
+
+    div.stButton > button:first-child:hover {
+        background: linear-gradient(90deg, #1D4ED8 0%, #2563EB 100%) !important;
+        border-color: #60A5FA !important;
+        box-shadow: 0 6px 22px rgba(37, 99, 235, 0.55) !important;
+        transform: translateY(-2px) !important;
+    }
+
+    div.stButton > button:first-child:active {
+        transform: translateY(0) !important;
+    }
+
+    /* =========================================================================
+       5. STREAMLIT TABS (CLEAN HIGH-CONTRAST PILLS)
+       ========================================================================= */
+    div[data-baseweb="tab-list"] {
+        background-color: #17243A !important;
+        border-radius: 12px !important;
+        padding: 6px !important;
+        gap: 8px !important;
+        border: 1px solid #2D4263 !important;
+        margin-bottom: 24px !important;
+    }
+
+    button[data-baseweb="tab"] {
+        color: #CBD5E1 !important;
+        font-size: 0.92rem !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+        padding: 10px 18px !important;
+        background-color: transparent !important;
+        border: none !important;
+        transition: all 0.2s ease !important;
+    }
+
+    button[data-baseweb="tab"]:hover {
+        color: #F8FAFC !important;
+        background-color: rgba(59, 130, 246, 0.15) !important;
+    }
+
+    button[data-baseweb="tab"][aria-selected="true"] {
+        color: #FFFFFF !important;
+        background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%) !important;
+        box-shadow: 0 4px 14px rgba(37, 99, 235, 0.45) !important;
+    }
+
+    div[data-baseweb="tab-highlight"],
+    div[data-baseweb="tab-border"] {
+        display: none !important;
+    }
+
+    /* =========================================================================
+       6. MATHEMATICAL EXPRESSIONS & LATEX
+       ========================================================================= */
+    .katex, .katex-display, .katex-html, span.katex {
+        color: #F8FAFC !important;
+    }
+
+    div[data-testid="stLatex"] {
+        background-color: #17243A !important;
+        border: 1px solid rgba(167, 139, 250, 0.28) !important;
+        border-radius: 10px !important;
+        padding: 14px 20px !important;
+        margin: 10px 0 !important;
+        box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    /* =========================================================================
+       7. CARDS, BANNERS, HEADERS & METRICS
+       ========================================================================= */
+    /* Project Header Card with Generous Breathing Room */
+    .main-header {
+        background: linear-gradient(135deg, #111C32 0%, #17243A 60%, #1E2E4A 100%);
+        border: 1px solid rgba(59, 130, 246, 0.35);
+        border-radius: 16px;
+        padding: 34px 38px;
+        margin-bottom: 34px;
+        box-shadow: 0 12px 32px -6px rgba(0, 0, 0, 0.6), 0 0 24px rgba(59, 130, 246, 0.15);
+    }
+
     .main-title {
-        color: #FFFFFF;
-        font-size: 2.1rem;
-        font-weight: 800;
-        letter-spacing: -0.025em;
-        margin-bottom: 6px;
+        color: #FFFFFF !important;
+        font-size: 2.5rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.03em !important;
+        line-height: 1.25 !important;
+        margin-bottom: 12px !important;
         display: flex;
         align-items: center;
-        gap: 12px;
+        gap: 14px;
     }
+
     .main-subtitle {
-        color: #94A3B8;
-        font-size: 1.0rem;
-        margin-bottom: 12px;
+        color: #CBD5E1 !important;
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+        max-width: 950px;
+        margin-bottom: 22px !important;
     }
+
+    /* Badge Flex Container for Clean Multi-Screen Wrapping */
+    .badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+    }
+
     .badge-tag {
-        display: inline-block;
-        background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 100%);
+        display: inline-flex;
+        align-items: center;
+        background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%);
         color: #FFFFFF;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         font-weight: 600;
-        padding: 4px 12px;
+        padding: 6px 15px;
         border-radius: 9999px;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        margin-right: 8px;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
     }
-    .badge-secondary {
-        display: inline-block;
-        background: rgba(56, 189, 248, 0.15);
-        color: #38BDF8;
-        border: 1px solid rgba(56, 189, 248, 0.3);
-        font-size: 0.78rem;
+
+    .badge-purple {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(167, 139, 250, 0.15);
+        color: #A78BFA;
+        border: 1px solid rgba(167, 139, 250, 0.35);
+        font-size: 0.8rem;
         font-weight: 600;
-        padding: 4px 12px;
+        padding: 6px 15px;
         border-radius: 9999px;
         letter-spacing: 0.03em;
     }
 
-    /* Section & Content Cards */
+    .badge-teal {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(45, 212, 191, 0.15);
+        color: #2DD4BF;
+        border: 1px solid rgba(45, 212, 191, 0.35);
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 6px 15px;
+        border-radius: 9999px;
+        letter-spacing: 0.03em;
+    }
+
+    /* Standard Content Section Cards */
     .content-card {
-        background: #111827;
-        border: 1px solid #1F2937;
+        background: #17243A;
+        border: 1px solid #2D4263;
+        border-radius: 16px;
+        padding: 26px 30px;
+        margin-bottom: 28px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .card-title {
+        font-size: 1.25rem !important;
+        font-weight: 700 !important;
+        color: #FFFFFF !important;
+        margin-bottom: 16px !important;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-bottom: 1px solid #2D4263;
+        padding-bottom: 14px;
+        letter-spacing: -0.01em;
+    }
+
+    /* Metric Cards with Glowing Hover Accent */
+    .metric-card {
+        background: linear-gradient(145deg, #1A2942 0%, #17243A 100%);
+        border: 1px solid #2D4263;
         border-radius: 14px;
         padding: 20px 22px;
-        margin-bottom: 20px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+        text-align: left;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    .card-title {
-        font-size: 1.15rem;
+
+    .metric-card:hover {
+        border-color: #3B82F6;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(59, 130, 246, 0.25);
+    }
+
+    .metric-label {
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: #CBD5E1;
         font-weight: 700;
-        color: #F8FAFC;
-        margin-bottom: 14px;
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         gap: 8px;
-        border-bottom: 1px solid #1F2937;
-        padding-bottom: 10px;
     }
 
-    /* Metric Cards */
-    .metric-card {
-        background: linear-gradient(145deg, #131D31 0%, #0F172A 100%);
-        border: 1px solid rgba(99, 102, 241, 0.25);
-        border-radius: 12px;
-        padding: 16px 18px;
-        text-align: left;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
-        transition: transform 0.15s ease, border-color 0.15s ease;
-    }
-    .metric-card:hover {
-        border-color: rgba(168, 85, 247, 0.6);
-        transform: translateY(-2px);
-    }
-    .metric-label {
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: #94A3B8;
-        font-weight: 600;
-        margin-bottom: 6px;
-    }
     .metric-value-symbolic {
-        font-size: 1.55rem;
+        font-size: 1.75rem;
         font-weight: 800;
-        color: #38BDF8;
-        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        color: #3B82F6;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        margin: 4px 0;
     }
+
     .metric-value-numeric {
-        font-size: 1.55rem;
+        font-size: 1.75rem;
         font-weight: 800;
-        color: #A855F7;
-        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        color: #A78BFA;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        margin: 4px 0;
     }
+
     .metric-value-error {
-        font-size: 1.55rem;
+        font-size: 1.75rem;
         font-weight: 800;
-        color: #10B981;
-        font-family: 'JetBrains Mono', 'Fira Code', monospace;
+        color: #2DD4BF;
+        font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+        margin: 4px 0;
     }
+
     .metric-subtext {
-        font-size: 0.76rem;
-        color: #64748B;
-        margin-top: 6px;
+        font-size: 0.82rem;
+        color: #94A3B8;
+        margin-top: 8px;
+        line-height: 1.45;
     }
 
-    /* Sidebar Customization */
-    section[data-testid="stSidebar"] {
-        background-color: #0F172A;
-        border-right: 1px solid #1E293B;
-    }
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3 {
-        color: #F8FAFC !important;
-    }
-
-    /* Streamlit Button Styling */
-    div.stButton > button:first-child {
-        background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 100%) !important;
-        color: #FFFFFF !important;
-        font-weight: 700 !important;
-        font-size: 1.02rem !important;
-        border: none !important;
-        border-radius: 10px !important;
-        padding: 12px 24px !important;
-        box-shadow: 0 4px 14px rgba(124, 58, 237, 0.4) !important;
-        transition: all 0.2s ease-in-out !important;
-    }
-    div.stButton > button:first-child:hover {
-        background: linear-gradient(90deg, #4338CA 0%, #6D28D9 100%) !important;
-        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.6) !important;
-        transform: translateY(-1px) !important;
-    }
-
-    /* Comparison Table Styling */
-    .custom-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
+    .formula-banner {
+        background: rgba(23, 36, 58, 0.85);
+        border: 1px solid #2D4263;
+        border-left: 4px solid #3B82F6;
         border-radius: 10px;
-        overflow: hidden;
-        border: 1px solid #1E293B;
-        margin-top: 10px;
-    }
-    .custom-table th {
-        background-color: #1E1B4B;
-        color: #E2E8F0;
-        padding: 12px 14px;
-        font-size: 0.85rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        border-bottom: 1px solid #312E81;
-    }
-    .custom-table td {
-        background-color: #111827;
+        padding: 14px 20px;
+        margin-bottom: 20px;
         color: #CBD5E1;
-        padding: 12px 14px;
-        font-size: 0.9rem;
-        border-bottom: 1px solid #1F2937;
+        font-size: 0.94rem;
+        line-height: 1.6;
     }
-    .custom-table tr:hover td {
-        background-color: #161F33;
+
+    /* =========================================================================
+       8. DATAFRAME & TABLE STYLING
+       ========================================================================= */
+    div[data-testid="stDataFrame"] {
+        border: 1px solid #2D4263 !important;
+        border-radius: 14px !important;
+        overflow: hidden !important;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    /* =========================================================================
+       9. ALERTS & NOTIFICATIONS
+       ========================================================================= */
+    div[data-testid="stAlert"] {
+        background-color: #17243A !important;
+        border: 1px solid #2D4263 !important;
+        border-radius: 10px !important;
+        padding: 16px 20px !important;
+    }
+    div[data-testid="stAlert"] p {
+        color: #F8FAFC !important;
     }
     </style>
     """,
@@ -225,18 +461,18 @@ st.markdown(
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown("### ⚙️ Control Panel")
-    st.markdown("<p style='color:#94A3B8; font-size:0.85rem;'>Configure mathematical parameters for symbolic & numerical engines.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#CBD5E1; font-size:0.86rem; line-height:1.5;'>Configure mathematical parameters for symbolic & numerical engines.</p>", unsafe_allow_html=True)
     st.divider()
 
     # Function Input Field with confirmed default
-    st.markdown("#### 1. Function Definition")
+    st.markdown("#### 📐 1. Function Definition")
     func_input = st.text_input(
         "Mathematical Function f(x)",
         value="x**3 - 3*x**3 + 2*x",
         help="Enter an expression in terms of x. Example: x**3 - 3*x**3 + 2*x, sin(x), exp(x)"
     )
 
-    st.markdown("#### 2. Differentiation Controls")
+    st.markdown("#### ⚡ 2. Differentiation Controls")
     x_input = st.number_input(
         "Evaluation Point (x)",
         value=2.0,
@@ -254,7 +490,7 @@ with st.sidebar:
         help="Step size for Central Finite Difference: [f(x+h) - f(x-h)] / (2h)"
     )
 
-    st.markdown("#### 3. Integration Controls")
+    st.markdown("#### 📐 3. Integration Controls")
     col_a, col_b = st.columns(2)
     with col_a:
         a_input = st.number_input(
@@ -282,7 +518,7 @@ with st.sidebar:
         help="Number of trapezoids used in Composite Trapezoidal Rule."
     )
 
-    st.markdown("#### 4. Graph Display Controls")
+    st.markdown("#### 📈 4. Graph Display Controls")
     auto_scale = st.checkbox("Auto-scale X-Axis Range", value=True, help="Automatically centers graph domain around evaluation point x and limits [a, b].")
     custom_range = None
     if not auto_scale:
@@ -304,11 +540,11 @@ with st.sidebar:
     # University Project Info
     st.markdown(
         """
-        <div style='margin-top: 24px; padding: 12px; background: rgba(30, 41, 59, 0.6); border-radius: 8px; border: 1px solid #1E293B;'>
-            <p style='font-size:0.75rem; color:#94A3B8; margin:0;'>
-                <strong>Course:</strong> Numerical & Symbolic Computing<br>
-                <strong>Backend:</strong> SymPy (Exact) & NumPy (CFD / Trapezoidal)<br>
-                <strong>Frontend:</strong> Streamlit Dark UI
+        <div style='margin-top: 26px; padding: 16px; background: #17243A; border-radius: 12px; border: 1px solid #2D4263;'>
+            <p style='font-size:0.8rem; color:#CBD5E1; margin:0; line-height: 1.6;'>
+                <strong style='color:#F8FAFC;'>Course:</strong> Numerical & Symbolic Computing<br>
+                <strong style='color:#F8FAFC;'>Backend:</strong> SymPy (Exact) & NumPy (CFD / Trapezoidal)<br>
+                <strong style='color:#F8FAFC;'>Theme:</strong> Premium Deep Navy UI
             </p>
         </div>
         """,
@@ -316,7 +552,7 @@ with st.sidebar:
     )
 
 # -----------------------------------------------------------------------------
-# 4. HEADER SECTION
+# 4. HEADER SECTION (MORE BREATHING ROOM, BOLD TITLE, WRAPPED BADGES)
 # -----------------------------------------------------------------------------
 st.markdown(
     """
@@ -327,12 +563,12 @@ st.markdown(
         <div class="main-subtitle">
             An interactive dashboard comparing exact Computer Algebra Systems (SymPy) with numerical discrete methods (NumPy).
         </div>
-        <div>
-            <span class="badge-tag">BSCS University Project</span>
-            <span class="badge-secondary">SymPy 1.12+</span>
-            <span class="badge-secondary">NumPy 1.24+</span>
-            <span class="badge-secondary">Central Difference O(h²)</span>
-            <span class="badge-secondary">Trapezoidal O(h²)</span>
+        <div class="badge-container">
+            <span class="badge-tag">🎓 BSCS University Project</span>
+            <span class="badge-purple">🔮 SymPy 1.12+ (Exact CAS)</span>
+            <span class="badge-teal">⚙️ NumPy 1.24+ (Numerical)</span>
+            <span class="badge-tag">⚡ Central Difference O(h²)</span>
+            <span class="badge-teal">📐 Trapezoidal Rule O(h²)</span>
         </div>
     </div>
     """,
@@ -378,7 +614,6 @@ st.markdown(
         <div class="card-title">
             <span>🔍 1. Algebraic Function Simplification (SymPy CAS)</span>
         </div>
-    </div>
     """,
     unsafe_allow_html=True
 )
@@ -386,40 +621,35 @@ st.markdown(
 col_orig, col_arrow, col_simp = st.columns([5, 1, 5])
 
 with col_orig:
-    st.markdown("**Original Input Function:**")
+    st.markdown("<strong style='color:#F8FAFC; font-size:1.0rem;'>Original Input Function:</strong>", unsafe_allow_html=True)
     st.latex(f"f(x) = {func_data['latex_original']}")
     st.caption(f"Raw Input: `{func_data['original_str']}`")
 
 with col_arrow:
-    st.markdown("<div style='text-align:center; padding-top:20px; font-size:1.6rem; color:#A855F7;'>➔</div>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align:center; padding-top:30px; font-size:2.0rem; color:#A78BFA; font-weight:bold;'>➔</div>", unsafe_allow_html=True)
 
 with col_simp:
-    st.markdown("**Simplified Polynomial Form:**")
+    st.markdown("<strong style='color:#F8FAFC; font-size:1.0rem;'>Simplified Polynomial Form:</strong>", unsafe_allow_html=True)
     st.latex(f"f(x) = {func_data['latex_simplified']}")
     st.caption("SymPy automatically identified & combined like terms ($x^3 - 3x^3 = -2x^3$).")
 
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 7. SECTION 2: DIFFERENTIATION COMPARISON
 # -----------------------------------------------------------------------------
 st.markdown(
-    """
+    f"""
     <div class="content-card">
         <div class="card-title">
             <span>⚡ 2. Differentiation Comparison: Exact Derivative vs Central Finite Difference</span>
         </div>
-    </div>
+        <div class="formula-banner">
+            <strong style="color:#F8FAFC;">Symbolic Formula:</strong> $\\frac{{d}}{{dx}} f(x) = {diff_data['symbolic']['latex_derivative']}$<br>
+            <strong style="color:#F8FAFC;">Numerical Formula:</strong> Central Finite Difference $f'(x) \\approx \\frac{{f(x+h) - f(x-h)}}{{2h}}$ with $x = {diff_data['numeric']['x_val']}$ and $h = {diff_data['numeric']['h']}$
+        </div>
     """,
     unsafe_allow_html=True
-)
-
-# Display mathematical definitions
-st.markdown(
-    f"""
-    - **Symbolic Differentiation:** $\\frac{{d}}{{dx}} f(x) = {diff_data['symbolic']['latex_derivative']}$
-    - **Numerical Differentiation:** Central Finite Difference: $f'(x) \\approx \\frac{{f(x+h) - f(x-h)}}{{2h}}$ with $x = {diff_data['numeric']['x_val']}$ and $h = {diff_data['numeric']['h']}$
-    """
 )
 
 # Metric cards for Differentiation
@@ -464,29 +694,23 @@ with col_d3:
         unsafe_allow_html=True
     )
 
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 8. SECTION 3: INTEGRATION COMPARISON
 # -----------------------------------------------------------------------------
 st.markdown(
-    """
+    f"""
     <div class="content-card">
         <div class="card-title">
             <span>📐 3. Integration Comparison: Exact Definite Integral vs Composite Trapezoidal Rule</span>
         </div>
-    </div>
+        <div class="formula-banner">
+            <strong style="color:#F8FAFC;">Symbolic Indefinite:</strong> $\\int f(x) dx = {int_data['indefinite_symbolic']['latex_indefinite']}$<br>
+            <strong style="color:#F8FAFC;">Definite Bounds:</strong> Interval $[a, b] = [{int_data['definite_symbolic']['a']}, {int_data['definite_symbolic']['b']}]$ with $n = {int_data['numeric_trapezoidal']['n']}$ trapezoids ($\\Delta x = {int_data['numeric_trapezoidal']['h']:.5f}$)
+        </div>
     """,
     unsafe_allow_html=True
-)
-
-# Indefinite integral display
-st.markdown(
-    f"""
-    - **Symbolic Indefinite Integral (Antiderivative):** 
-      $$\\int f(x) dx = {int_data['indefinite_symbolic']['latex_indefinite']}$$
-    - **Definite Integral Bounds:** Interval $[a, b] = [{int_data['definite_symbolic']['a']}, {int_data['definite_symbolic']['b']}]$ with $n = {int_data['numeric_trapezoidal']['n']}$ trapezoids ($\\Delta x = {int_data['numeric_trapezoidal']['h']:.5f}$).
-    """
 )
 
 # Metric cards for Integration
@@ -531,12 +755,20 @@ with col_i3:
         unsafe_allow_html=True
     )
 
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 9. SECTION 4: COMPREHENSIVE COMPARISON SUMMARY TABLE
 # -----------------------------------------------------------------------------
-st.markdown("### 📊 Comprehensive Comparison Summary Table")
+st.markdown(
+    """
+    <div class="content-card">
+        <div class="card-title">
+            <span>📊 4. Comprehensive Comparison Summary Table</span>
+        </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # Format comparison table data cleanly
 table_data = [
@@ -565,13 +797,23 @@ table_data = [
 df_comparison = pd.DataFrame(table_data)
 st.dataframe(df_comparison, use_container_width=True, hide_index=True)
 
-st.divider()
+st.markdown("</div>", unsafe_allow_html=True)
 
 # -----------------------------------------------------------------------------
 # 10. SECTION 5: INTERACTIVE VISUAL PLOTS (MATPLOTLIB & GRAPHS.PY)
 # -----------------------------------------------------------------------------
-st.markdown("### 📈 Visual Graphs & Geometric Interpretation")
-st.markdown("<p style='color:#94A3B8;'>Visualizing the continuous analytical curves alongside discrete numerical approximations.</p>", unsafe_allow_html=True)
+st.markdown(
+    """
+    <div class="content-card">
+        <div class="card-title">
+            <span>📈 5. Visual Graphs & Geometric Interpretation</span>
+        </div>
+        <p style='color:#CBD5E1; font-size:0.95rem; margin-bottom: 20px;'>
+            Visualizing the continuous analytical curves alongside discrete numerical approximations.
+        </p>
+    """,
+    unsafe_allow_html=True
+)
 
 # Generate all 4 required figures dynamically
 fig_orig = graphs.plot_original_function(
@@ -635,58 +877,23 @@ with tab_all:
         st.pyplot(fig_integration)
 
 with tab1:
-    st.markdown("**1. Original Function Graph: $f(x)$**")
+    st.markdown("<strong style='color:#F8FAFC; font-size:1.02rem;'>1. Original Function Graph: $f(x)$</strong>", unsafe_allow_html=True)
     st.caption("Shows the full mathematical curve across the domain, highlighting the evaluation point $x$ and integration limits $[a, b]$.")
     st.pyplot(fig_orig)
 
 with tab2:
-    st.markdown("**2. Symbolic Derivative Graph: $f'(x)$**")
+    st.markdown("<strong style='color:#F8FAFC; font-size:1.02rem;'>2. Symbolic Derivative Graph: $f'(x)$</strong>", unsafe_allow_html=True)
     st.caption("Plots the exact rate-of-change formula derived algebraically by SymPy, with the slope at $x=2$ marked.")
     st.pyplot(fig_sym_deriv)
 
 with tab3:
-    st.markdown("**3. Derivative Comparison: Analytical vs Central Finite Difference**")
+    st.markdown("<strong style='color:#F8FAFC; font-size:1.02rem;'>3. Derivative Comparison: Analytical vs Central Finite Difference</strong>", unsafe_allow_html=True)
     st.caption("Visualizes how closely the discrete Central Finite Difference estimates align with the continuous exact derivative curve.")
     st.pyplot(fig_diff_comp)
 
 with tab4:
-    st.markdown("**4. Definite Integration & Trapezoidal Chords**")
+    st.markdown("<strong style='color:#F8FAFC; font-size:1.02rem;'>4. Definite Integration & Trapezoidal Chords</strong>", unsafe_allow_html=True)
     st.caption("Shows the exact shaded definite area $\\int_a^b f(x) dx$ compared with the composite trapezoid geometric approximation.")
     st.pyplot(fig_integration)
 
-st.divider()
-
-# -----------------------------------------------------------------------------
-# 11. SECTION 6: THEORETICAL VIVA / EXAM CHEAT SHEET
-# -----------------------------------------------------------------------------
-with st.expander("🎓 Numerical vs. Symbolic Computing: Academic Explanations & Viva Questions", expanded=False):
-    st.markdown(
-        """
-        ### 1. Why do we need both Symbolic and Numerical computing?
-        - **Symbolic Computing (SymPy):**
-          - Operates on mathematical symbols ($x, y, \\pi, \\sqrt{2}$).
-          - Provides **infinite precision** and exact closed-form algebraic formulas.
-          - *Limitation:* Many real-world differential equations and complex integrals do not have an elementary closed-form solution. It can also be slow for large datasets.
-        - **Numerical Computing (NumPy):**
-          - Operates on discrete arrays of floating-point numbers.
-          - Can approximate solutions to *any* well-behaved function very quickly.
-          - *Limitation:* Incurs **truncation error** (from finite approximations) and **round-off error** (from IEEE-754 64-bit floating point precision limits).
-
-        ### 2. Why is the Central Finite Difference $O(h^2)$?
-        Using Taylor expansions:
-        $$f(x+h) = f(x) + f'(x)h + \\frac{f''(x)}{2!}h^2 + \\frac{f'''(x)}{3!}h^3 + \\dots$$
-        $$f(x-h) = f(x) - f'(x)h + \\frac{f''(x)}{2!}h^2 - \\frac{f'''(x)}{3!}h^3 + \\dots$$
-        Subtracting the two equations cancels all even-order derivative terms (including $f''(x)$):
-        $$f(x+h) - f(x-h) = 2 f'(x) h + \\frac{2 f'''(x)}{6} h^3 + \\dots$$
-        Dividing by $2h$:
-        $$\\frac{f(x+h) - f(x-h)}{2h} = f'(x) + \\frac{f'''(x)}{6} h^2 + \\dots$$
-        Hence, the leading error term is proportional to $h^2$, making it **second-order accurate**.
-
-        ### 3. What is the Trapezoidal Rule error formula?
-        For a single interval, the error is:
-        $$E = -\\frac{(b - a)^3}{12} f''(\\xi)$$
-        For the Composite Trapezoidal Rule over $n$ intervals with step size $h = \\frac{b-a}{n}$:
-        $$E_{\\text{composite}} = -\\frac{(b - a) h^2}{12} f''(\\xi) = O(h^2)$$
-        As $n$ increases, $h$ decreases, and the approximation error drops quadratically!
-        """
-    )
+st.markdown("</div>", unsafe_allow_html=True)
